@@ -773,6 +773,9 @@ class Date:
 	
 	## Add any number of days to this date.
 	func add_days(days: int) -> void:
+		if days < 0:
+			subtract_days(-days)
+			return
 		day += days
 		while day > _get_days_in_month():
 			day -= _get_days_in_month()
@@ -789,6 +792,9 @@ class Date:
 	## is 31 and the new month is June, the day will be set to 30. Additionally, 
 	## February 29 will be adjusted to February 28 in non-leap years.
 	func add_months(months: int) -> void:
+		if months < 0:
+			subtract_months(-months)
+			return
 		month += months
 		while month > 12:
 			month -= 12
@@ -808,6 +814,9 @@ class Date:
 	
 	## Subtract any number of days from this date.
 	func subtract_days(days: int) -> void:
+		if days < 0:
+			add_days(-days)
+			return
 		day -= days
 		while day < 1:
 			month -= 1
@@ -824,6 +833,9 @@ class Date:
 	## is 31 and the new month is June, the day will be set to 30. Additionally, 
 	## February 29 will be adjusted to February 28 in non-leap years.
 	func subtract_months(months: int) -> void:
+		if months < 0:
+			add_months(-months)
+			return
 		month -= months
 		while month < 1:
 			month += 12
@@ -917,7 +929,7 @@ class Date:
 		return date
 	
 	# Present the date as "Year-Month-Day" when printed (i.e., 2023-12-01).
-	# This is a build in function froom Godot that changed how a class
+	# This is a build in function from Godot that changed how a class
 	# behaves when printed.
 	func _to_string() -> String:
-		return "%s-%s-%s" % [year, month, day]
+		return "%d-%02d-%02d" % [year, month, day]
